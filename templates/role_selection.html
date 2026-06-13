@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Role | Airline Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: "Poppins", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== Background Video ===== */
+        video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            /* was “cover” */
+            filter: brightness(80%);
+            background: #000;
+            /* fills borders if video doesn’t cover */
+        }
+
+
+        /* ===== Center Card ===== */
+        .overlay {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .role-btn {
+            display: block;
+            width: 200px;
+            background: #00bcd4;
+            color: rgb(249, 249, 249);
+            border: none;
+            padding: 12px;
+            margin: 10px auto;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .role-btn.admin {
+            background: #ff9800;
+        }
+
+        .role-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background-color: #111;
+            color: #ccc;
+            padding: 50px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        footer h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        footer ul {
+            list-style: none;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        footer ul li a {
+            text-decoration: none;
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+        footer ul li a:hover {
+            color: #00bcd4;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            background: #000;
+            color: #888;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline>
+        <source src="{{ url_for('static', filename='videos/plane.mp4') }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+
+    <!-- Center Role Selection Card -->
+    <div class="overlay">
+        <div class="container">
+            <h1>Choose Your Role</h1>
+            <form method="POST">
+                <button type="submit" name="role" value="passenger" class="role-btn">✈️ Passenger</button>
+                <button type="submit" name="role" value="admin" class="role-btn admin">🧑‍💼 Admin</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div>
+            <h3>MAKEMYTRIP</h3>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Investor Relations</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">MMT Foundation</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>ABOUT THE SITE</h3>
+            <ul>
+                <li><a href="#">Customer Support</a></li>
+                <li><a href="#">MMT Black Loyalty Program</a></li>
+                <li><a href="#">Payment Security</a></li>
+                <li><a href="#">User Agreement</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>PRODUCT OFFERING</h3>
+            <ul>
+                <li><a href="#">Flights</a></li>
+                <li><a href="#">Hotels</a></li>
+                <li><a href="#">Cabs</a></li>
+                <li><a href="#">Holidays</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>QUICK LINKS</h3>
+            <ul>
+                <li><a href="#">Indigo Airlines</a></li>
+                <li><a href="#">Air India</a></li>
+                <li><a href="#">SpiceJet</a></li>
+                <li><a href="#">Vistara</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>VISA OFFERINGS</h3>
+            <ul>
+                <li><a href="#">USA Visa</a></li>
+                <li><a href="#">Dubai Visa</a></li>
+                <li><a href="#">France Visa</a></li>
+                <li><a href="#">Australia Visa</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>CORPORATE TRAVEL</h3>
+            <ul>
+                <li><a href="#">Business Travel</a></li>
+                <li><a href="#">Corporate Booking</a></li>
+                <li><a href="#">Expense Management</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <div class="footer-bottom">
+        © 2025 Airline Management System | Inspired by MakeMyTrip
+    </div>
+
+</body>
+
+</html>

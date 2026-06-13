@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #d7e1ec, #f0f5f9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 480px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        p {
+            color: #333;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        li {
+            background: #f8f9fa;
+            margin: 6px auto;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: fit-content;
+            font-weight: 500;
+        }
+
+        .amount {
+            background: #e7f3ff;
+            color: #007bff;
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s ease;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.03);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            color: #007bff;
+        }
+
+        /* PAYMENT POPUP */
+        .popup-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-box {
+            background: white;
+            width: 320px;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-box h3 {
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 12px;
+        }
+
+        .cancel-btn {
+            background-color: red;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Transaction Summary</h1>
+
+        <p><strong>Flight:</strong> {{ flight['source'] }} → {{ flight['destination'] }}</p>
+
+        <p><strong>Seats Selected:</strong></p>
+        <ul>
+            {% for seat in seats %}
+            <li>{{ seat['seat_number'] }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Total Seats:</strong> {{ seats|length }}</p>
+        <div class="amount">
+            <p>Total Amount: ₹{{ total_amount }}</p>
+        </div>
+
+        <form id="paymentForm" method="POST" action="/transaction">
+            <button type="button" onclick="openPayment()">Confirm Payment</button>
+        </form>
+
+
+        <a href="{{ url_for('passenger_dashboard') }}" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <!-- PAYMENT POPUP -->
+    <div class="popup-bg" id="popup">
+        <div class="popup-box">
+            <h3>Enter Payment Details</h3>
+
+            <input type="text" class="input-field" placeholder="Card Number (Fake)">
+            <input type="text" class="input-field" placeholder="Name on Card">
+
+            <button onclick="paySuccess()">Pay</button>
+            <button class="cancel-btn" onclick="closePopup()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        function openPayment() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function paySuccess() {
+            document.getElementById("paymentForm").submit();
+        }
+
+    </script>
+
+</body>
+
+</html>

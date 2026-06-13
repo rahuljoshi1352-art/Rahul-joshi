@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Order Food</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        table {
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table td,
+        th {
+            padding: 10px 15px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Order Food for Seat {{ seat_number }}</h2>
+
+    <form method="POST">
+        <table border="1">
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+            </tr>
+
+            {% for item in menu %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>
+                    <input type="number" name="qty" value="0" min="0">
+                    <input type="hidden" name="food_id" value="{{ item.id }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Passenger Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #d7e1ec, #f0f5f9);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px;
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 25px auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .book-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .food-btn {
+            background-color: #ff9800;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .logout {
+            text-align: center;
+            margin: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Welcome Passenger!</h1>
+    </header>
+
+
+    <!-- AVAILABLE FLIGHTS -->
+    <h2>Available Flights</h2>
+    <!-- SORT DROPDOWN -->
+    <form method="GET" action="{{ url_for('passenger_dashboard') }}" style="text-align:center; margin-top:20px;">
+        <label><b>Sort Flights By:</b></label>
+        <select name="sort_by" onchange="this.form.submit()">
+            <option value="">Default</option>
+            <option value="departure" {% if request.args.get('sort_by')=='departure' %}selected{% endif %}>Departure
+                Time</option>
+            <option value="arrival" {% if request.args.get('sort_by')=='arrival' %}selected{% endif %}>Arrival Time
+            </option>
+            <option value="price" {% if request.args.get('sort_by')=='price' %}selected{% endif %}>Price</option>
+        </select>
+    </form>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Price (₹)</th>
+            <th>Action</th>
+        </tr>
+
+        {% for flight in flights %}
+        <tr>
+            <td>{{ flight[0] }}</td>
+            <td>{{ flight[1] }}</td>
+            <td>{{ flight[2] }}</td>
+            <td>{{ flight[3] }}</td>
+            <td>{{ flight[4] }}</td>
+            <td>{{ flight[5] }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('book_flight') }}">
+                    <input type="hidden" name="flight_id" value="{{ flight[0] }}">
+                    <button class="book-btn" type="submit">Book</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- MY BOOKINGS -->
+    <h2>My Bookings</h2>
+    <table>
+        <tr>
+            <th>Booking ID</th>
+            <th>Flight ID</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Seat</th>
+            <th>Food</th>
+        </tr>
+
+        {% for b in booked_flights %}
+        <tr>
+            <td>{{ b[0] }}</td>
+            <td>{{ b[1] }}</td>
+            <td>{{ b[2] }}</td>
+            <td>{{ b[3] }}</td>
+            <td>{{ b[4] }}</td>
+            <td>{{ b[5] }}</td>
+            <td>{{ b[6] }}</td>
+
+            <td>
+                <a href="{{ url_for('order_food', booking_id=b[0], seat_number=b[6]) }}">
+                    <button class="food-btn">Order Food</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- FOOD ORDERS -->
+    <h2>My Food Orders</h2>
+    <table>
+        <tr>
+            <th>Booking ID</th>
+            <th>Food Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+
+        {% for fo in food_orders %}
+        <tr>
+            <td>{{ fo[0] }}</td>
+            <td>{{ fo[1] }}</td>
+            <td>₹{{ fo[2] }}</td>
+            <td>{{ fo[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <footer>
+        © 2025 Airline Booking System. All rights reserved.
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Passengers for Flight {{ flight['source'] }} → {{ flight['destination'] }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #d7e1ec, #f0f5f9);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        p {
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            margin-top: 40px;
+        }
+
+        .back {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .back a {
+            text-decoration: none;
+        }
+
+        .back button {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .back button:hover {
+            background-color: #23272b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Passengers for Flight {{ flight['source'] }} → {{ flight['destination'] }}</h1>
+    </header>
+
+    {% if passengers %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Seat Number</th>
+        </tr>
+        {% for p in passengers %}
+        <tr>
+            <td>{{ p['name'] }}</td>
+            <td>{{ p['age'] }}</td>
+            <td>{{ p['gender'] }}</td>
+            <td>{{ p['seat_number'] }}</td>
+            <td>
+                <a href="{{ url_for('admin_view_food', passenger_id=p['passenger_id']) }}">
+                    <button
+                        style="padding:8px 14px; background:#ff9800; color:white; border:none; border-radius:6px; cursor:pointer;">
+                        View Food Orders
+                    </button>
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No passengers have booked this flight yet.</p>
+    {% endif %}
+
+    <div class="back">
+        <a href="{{ url_for('admin_dashboard') }}">
+            <button>← Back to Dashboard</button>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2025 Airline Booking System. All rights reserved.
+    </footer>
+</body>
+
+</html>
